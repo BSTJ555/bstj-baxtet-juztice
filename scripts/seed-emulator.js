@@ -9,9 +9,11 @@
  */
 process.env.FIRESTORE_EMULATOR_HOST = "127.0.0.1:8080";
 
-const admin = require("firebase-admin");
-admin.initializeApp({ projectId: "the-stat-f8c06" });
-const db = admin.firestore();
+const { initializeApp } = require("firebase-admin/app");
+const { getFirestore, FieldValue } = require("firebase-admin/firestore");
+
+initializeApp({ projectId: "the-stat-f8c06" });
+const db = getFirestore();
 
 async function seed() {
   await db.collection("system_config").doc("fx_rate").set({
@@ -26,7 +28,7 @@ async function seed() {
     approval_status: "FUNDING",
     payout_bank_account: "0000000000",
     live_face_scan_passed: true,
-    submitted_at: admin.firestore.FieldValue.serverTimestamp(),
+    submitted_at: FieldValue.serverTimestamp(),
   });
   console.log("Seeded donation_cases/STAR-2026-001");
 
